@@ -404,49 +404,46 @@ Cart::add('1239ad0', 'Product 2', 2, 5.95, ['size' => 'large']);
 
 // Display the content in a View.
 <table>
-   	<thead>
-       	<tr>
-           	<th>Product</th>
-           	<th>Qty</th>
-           	<th>Price</th>
-           	<th>Subtotal</th>
-       	</tr>
-   	</thead>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
 
-   	<tbody>
+    <tbody>
 
-   		<?php foreach(Cart::content() as $row) :?>
+        @foreach (Cart::content() as $item)
+            <tr>
+                <td>
+                    <p><strong>{{ $item->name }}</strong></p>
+                    <p>{{ $item->options->has('size') ? $item->options->size : '' }}</p>
+                </td>
+                <td><input type="text" value="{{ $item->qty }}"></td>
+                <td>${{ $item->price }}</td>
+                <td>${{ $item->total }}</td>
+            </tr>
+        @endforeach
+    </tbody>
 
-       		<tr>
-           		<td>
-               		<p><strong><?php echo $row->name; ?></strong></p>
-               		<p><?php echo ($row->options->has('size') ? $row->options->size : ''); ?></p>
-           		</td>
-           		<td><input type="text" value="<?php echo $row->qty; ?>"></td>
-           		<td>$<?php echo $row->price; ?></td>
-           		<td>$<?php echo $row->total; ?></td>
-       		</tr>
-
-	   	<?php endforeach;?>
-
-   	</tbody>
-
-   	<tfoot>
-   		<tr>
-   			<td colspan="2">&nbsp;</td>
-   			<td>Subtotal</td>
-   			<td><?php echo Cart::subtotal(); ?></td>
-   		</tr>
-   		<tr>
-   			<td colspan="2">&nbsp;</td>
-   			<td>Tax</td>
-   			<td><?php echo Cart::tax(); ?></td>
-   		</tr>
-   		<tr>
-   			<td colspan="2">&nbsp;</td>
-   			<td>Total</td>
-   			<td><?php echo Cart::total(); ?></td>
-   		</tr>
-   	</tfoot>
+    <tfoot>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td>Subtotal</td>
+            <td>{{ Cart::subtotal() }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td>Tax</td>
+            <td>{{ Cart::tax() }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td>Total</td>
+            <td>{{ Cart::total() }}</td>
+        </tr>
+    </tfoot>
 </table>
 ```
